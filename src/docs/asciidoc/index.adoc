@@ -1,11 +1,6 @@
 = Spock for Java developers
 Tobias Schulte <tobias.schulte@gliderpilot.de>
-:toc:
-:toclevels: 2
-:numbered:
-:icons: font
-:sourcedir: ../../main/groovy/de/gliderpilot/spock
-:testdir: ../../test/groovy/de/gliderpilot/spock
 
 include::groovy.adoc[]
+
 include::spock.adoc[]
