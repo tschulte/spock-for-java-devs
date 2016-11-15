@@ -34,15 +34,18 @@ asciidoctor {
     options doctype: 'book'
 
     backends = ['html5'] //, 'pdf']
-    attributes 'source-highlighter'    : 'coderay',
-               'coderay-linenums-mode' : 'table',
-               numbered                : true,
-               toc                     : 'left',
-               icons                   : 'font',
-               linkattrs               : true,
-               encoding                : 'utf-8',
-               sourcedir               : '../../main/groovy/de/gliderpilot/spock',
-               testdir                 : '../../test/groovy/de/gliderpilot/spock'
+    attributes(
+        'source-highlighter'    : 'coderay',
+        numbered                : true,
+        toc                     : 'left',
+        icons                   : 'font',
+        linkattrs               : true,
+        linenums                : true,
+        prewrap                 : "",
+        encoding                : 'utf-8',
+        sourcedir               : '../../main/groovy/de/gliderpilot/spock',
+        testdir                 : '../../test/groovy/de/gliderpilot/spock',
+    )
 }
 
 build.dependsOn 'asciidoctor'
