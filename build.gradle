@@ -36,6 +36,7 @@ asciidoctor {
     backends = ['html5'] //, 'pdf']
     attributes(
         'source-highlighter'    : 'coderay',
+        imagesdir               : 'images',
         numbered                : true,
         toc                     : 'left',
         icons                   : 'font',

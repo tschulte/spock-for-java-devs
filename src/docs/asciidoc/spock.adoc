@@ -1,22 +1,81 @@
 == Spock
 Spock is a testing framework that uses Groovy as a language and leverages many Groovy features to simplify testing. It uses JUnit as test runner and is therefore supported in all environments that support JUnit.
 
+For complete documentation see http://spockframework.org/spock/docs/latest/index.html
+
 === Enforces Behavior Driven Design
 A test class must extend `spock.lang.Specification`. Every public method that either has an `expect:` block or both `when:` and `then:` is considered a test case.
 
-[cols="2"]
-|===
-| Java with JUnit | Groovy with Spock
-a|
 [source, java]
 ----
 include::{testdir}/JUnitTest.java[]
 ----
 
-a|
 [source, groovy]
 ----
 include::{testdir}/SpockSpec.groovy[]
 ----
 <1> optional description
-|===
+
+=== Annotations as a means to documentation
+Spock supports some annotations for documentation purposes.
+* Subject
+* Issue
+* Title
+* Narrative
+[source, groovy]
+----
+@Issue("32817")
+def "calls to findFreeDepartureNames on date change are executed in order"() {
+    ...
+}
+----
+
+=== Extensions
+Spock allows to extend its behavior using some annotations. It ships with some annotations and extensions. See http://spockframework.org/spock/docs/latest/extensions.html
+
+`@Ignore`:: Same as JUnits Ignore
+[source, groovy]
+----
+@Ignore("fails sometimes")
+def "very flaky test"() {...}
+----
+
+`@IgnoreIf`/`@Requires`:: Ignore based on some condition
+[source, groovy]
+----
+@IgnoreIf({ os.windows })
+def "test that does not run on windows"() {...}
+
+@Requires({ sys.itest })
+def "integration test for blah"() {...}
+----
+
+`@IgnoreRest`:: Ignore all but one test
+
+`@PendingFeature`:: Execute the test, but mark as ignored, as long as it fails. Once it succeeds, mark as failure. The use case is to annotate tests that can not yet run but should already be committed. The main difference to Ignore is that the test are executed, but test failures are ignored. If the test passes without an error, then it will be reported as failure since the PendingFeature annotation should be removed. This way the tests will become part of the normal tests instead of being ignored forever.
+
+`@Stepwise`:: Execute the test methods in the exact order of their declaration in the groovy file
+
+`@Timeout`:: Can be used on tests, that might introduce a deadlock
+
+`@RestoreSystemProperties`:: Can be used for tests that alter System Properties to automatically restore the properties
+
+`@AutoCleanup`:: Automatically cleanup resources
+[source, groovy]
+----
+@AutoCleanup("disconnect")
+def connection = connect()
+----
+
+`@Shared`:: Can be used instead of `static`. Marks a variable that is shared between tests.
+
+=== Data driven testing
+[source, groovy]
+----
+include::{testdir}/MathSpec.groovy[]
+----
+
+results in
+
+image::unrolledTestReport.png[]
