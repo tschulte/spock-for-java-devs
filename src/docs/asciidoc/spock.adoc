@@ -1,0 +1,22 @@
+== Spock
+Spock is a testing framework that uses Groovy as a language and leverages many Groovy features to simplify testing. It uses JUnit as test runner and is therefore supported in all environments that support JUnit.
+
+=== Enforces Behavior Driven Design
+A test class must extend `spock.lang.Specification`. Every public method that either has an `expect:` block or both `when:` and `then:` is considered a test case.
+
+[cols="2"]
+|===
+| Java with JUnit | Groovy with Spock
+a|
+[source, java]
+----
+include::{testdir}/JUnitTest.java[]
+----
+
+a|
+[source, groovy]
+----
+include::{testdir}/SpockSpec.groovy[]
+----
+<1> optional description
+|===

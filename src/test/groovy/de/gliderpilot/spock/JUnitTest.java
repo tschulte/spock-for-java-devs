@@ -36,6 +36,6 @@ public class JUnitTest {
         list.add("Paul");
 
         // then
-        assertThat(list.size(), is(1));
+        assertThat(list.size(), is(2));
     }
 }

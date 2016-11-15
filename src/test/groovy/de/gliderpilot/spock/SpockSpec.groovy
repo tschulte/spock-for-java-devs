@@ -14,7 +14,7 @@ class SpockSpecification extends Specification {
     }
 
     def "size is one after adding one element"() {
-        when:
+        when: "I add an element" // <1>
         list.add("Paul")
 
         then:
@@ -27,7 +27,7 @@ class SpockSpecification extends Specification {
         list.add("Paul");
 
         then:
-        list.size() == 1
+        list.size() == 2
     }
 
 }
