@@ -1,0 +1,310 @@
+== Why Groovy?
+In principle, nearly all valid Java code is valid Groovy code as well. Only Java 8 lambdas are not supported (yet).
+
+But Groovy offers some very cool features, that are especially nice for writing tests.
+
+For complete documentation see http://groovy-lang.org/documentation.html.
+
+=== Optional semicolon (`;`)
+Who needs them anyway. End of line normally is the end of statement. But to see, if the next line belongs to the previuos line, you don't need the semicolon.
+
+[source, groovy]
+----
+Observable.just(5)
+          .map(service.&loadOrder) // <1>
+          .subscribe()
+----
+<1> like `service::loadOrder` in Java 8
+
+=== Closures
+Closures are more than Lambdas in Java 8. Variables outside need not be final. Closures can be coerced as any single abstract method type (like Lambdas).
+
+[source,groovy]
+----
+int count = 0
+20.times { // <1>
+    count++
+}
+assert count == 20
+new Thread({count = 0}).start()
+assert await().until { count == 0 }
+
+def closure = { println it } // <2>
+def closureWithNamedArguments = { a, b, c -> // <3>
+    println "$a $b $c"
+}
+----
+<1> No named parameter
+<2> But if parameter is passed, it can be always accessed using `it`
+<3> But parameters can be named anything you want using this syntax.
+
+=== Optional typing
+You can use `def` instead of typing the type
+[source, groovy]
+----
+def order = loadOrder()
+println order.internId
+----
+
+=== Duck typing
+If it quacks like a duck, and walks like a duck, it is a duck.
+
+[source, groovy]
+----
+class Cat {
+    def makeSound() {
+        println "meow!"
+    }
+}
+class Dog {
+    def makeSound() {
+        println "wuff!"
+    }
+}
+def animal = new Cat()
+animal.makeSound()
+animal = new Dog()
+animal.makeSound()
+----
+
+=== Collection literals
+[source, groovy]
+----
+def list = ["a", "b", "c"] // <1>
+
+def map = [a: 1, b: 2, c: 3] // <2>
+----
+<1> `List<String> list = new ArrayList<>(Arrays.asList("a", "b", "c"))` in Java
+<2> `Map<String, Integer> map = new HashMap<>(); map.put("a", 1);...` in Java
+
+=== Groovy Truth
+In Groovy, all objects can be coerced to a Boolean. `null` is `false`,
+`0` is `false`, `""` is `false`, `[]` and `[:]` is `false`. Everything
+else is `true`.
+[source,groovy]
+----
+assert "hello world!"
+assert 1
+assert [1]
+assert [a: 1]
+
+assert !null
+assert !""
+assert !0
+assert !0d
+assert ![]
+assert ![:]
+
+def list = null
+if (list) println list // <1>
+----
+<1> skipped optional parens;)
+
+=== Optional return statement
+The last statement is returned
+[source,groovy]
+----
+String head(String s) {
+    s.substring(0, 1)
+}
+assert head("hallo") == "h"
+----
+
+=== Classes and methods are public by default
+[source,groovy]
+----
+class BaseFoo { // <1>
+    protected BaseFoo() {} // <2>
+}
+
+public class Foo extends BaseFoo { // <2>
+    Foo() { // <1>
+        super()
+    }
+    private class Bar {} // <2>
+}
+
+@PackagePrivate // <3>
+class PackagePrivateFoo extends BaseFoo {
+}
+----
+<1> classes and methods are public by default
+<2> public, protected and private keywords are possible
+<3> Since no modifier means public, an annotation must be given here
+
+
+=== Properties
+[source, groovy]
+----
+class Order {
+    String id // <1>
+    String externId
+}
+
+Order o = new Order()
+o.id = "123" // <2>
+assert o.id == "123" // <3>
+----
+<1> getter, setter will be generated
+<2> setter will be called
+<3> getter will be called
+
+=== Object creation with setter calls
+[source, grooovy]
+----
+Order o = new Order(id: "123", externId: "456") // <1>
+----
+<1> `Order order = new Order(); order.setId("123"); order.setExternId("456");` in Java
+
+=== Safe dereference operator
+[source,groovy]
+----
+if (order?.shipper?.address?.name1) ... // <1>
+----
+<1> instead of `if (order != null && order.shipper != null && ...)`
+
+=== Elvis-Operator
+[source,groovy]
+----
+def greeting = service.greeting() ?: "Hello Groovy" // <1>
+----
+<1> use response from `service.greeting()` if `true` (according to groovy truth); use `"Hello Groovy"` otherwise
+
+Why "Elvis"? Why is :) considered a smiley?
+
+=== Power asserts
+[source, groovy]
+----
+import groovy.transform.*
+@ToString
+class Order {
+    String id // getter, setter will be generated
+    String externId
+}
+
+Order o = new Order()
+o.id = "123" // setter will be called
+assert o.id == "12"
+
+
+Exception thrown
+
+Assertion failed:
+
+assert o.id == "12"
+       | |  |
+       | |  false
+       | 123
+       Order(123, null)
+----
+
+=== Spread-Dot operator
+[source, groovy]
+----
+List<Order> orders = Service.load()
+
+assert orders*.id.contains("123") // <1>
+----
+<1> same as `orders.collect { it.id }.contains("123")`
+
+=== String as identifier
+[source,groovy]
+----
+def "a user with permission `login` can login to the system"() {
+    ...
+}
+
+// instead of
+// @Test
+// public void aUserWithPermission_login_canLoginToTheSystem() {
+//    ...
+// }
+
+def string = "abcd"
+[size: 4, isEmpty: false].each { method, expectedResult ->
+    assert string."$method"() == expectedResult
+}
+----
+
+=== Equality and identity
+In Groovy `==` checks for equality using the `equals` method. To check
+for identity, use `is` instead
+[source,groovy]
+----
+assert !(new String("foo").is(new String("foo"))) // <1>
+assert new String("foo") == new String("foo") // <2>
+----
+<1> `.is(other)` is like `==` in Java
+<2> `==` in Groovy uses `compareTo(other) == 0`, if `implements Comparable`, `equals(other)` otherwise
+
+=== Dynamic method dispatch
+Groovy uses dynamic method dispatch, Java uses static method dispatch.
+
+[source,groovy]
+----
+def use(Object o) {
+    println "got an object"
+}
+def use(String s) {
+    println "got a string"
+}
+def use(Number n) {
+    println "got a number"
+}
+
+Object o = "a"
+use o
+
+o = 1
+use o
+
+o = new Object
+use o
+----
+
+results in
+
+[source,bash]
+----
+
+got a string
+got a number
+got an object
+----
+
+whereas in Java, it would print "got an object" all the time.
+
+=== Everything is an object
+For primitive types, the corresponding wrappers are used.
+
+=== Operator overloading
+Groovy allows some simple operator overloading. See http://groovy-lang.org/operators.html#Operator-Overloading.
+
+=== Groovy JDK
+Groovy enhances the standard JDK with some nice functionality. You could even enhance the JDK with your own methods using extensions. See http://groovy-lang.org/gdk.html
+
+[source, groovy]
+----
+def testdata = getClass().getResource("/testfile.xml").bytes
+service.methodThatNeedsByteArray(testdata)
+
+20.times { println it }
+def now = new Date()
+def tomorrow = now + 1
+----
+
+=== `size()` FTW
+For all objects, that have a `size()`, `length` or `length()` you can use `size()`.
+
+```groovy
+int[] array = new int[5]
+assert array.size() == 5
+
+def list = [1, 2, 3, 4, 5]
+assert list.size() == 5
+
+def string = "12345"
+assert string.size() == 5
+```
+
+===
