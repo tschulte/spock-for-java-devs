@@ -19,7 +19,7 @@ Observable.just(5)
 === Closures
 Closures are more than Lambdas in Java 8. Variables outside need not be final. Closures can be coerced as any single abstract method type (like Lambdas).
 
-[source,groovy]
+[source, groovy]
 ----
 int count = 0
 20.times { // <1>
@@ -81,7 +81,7 @@ def map = [a: 1, b: 2, c: 3] // <2>
 In Groovy, all objects can be coerced to a Boolean. `null` is `false`,
 `0` is `false`, `""` is `false`, `[]` and `[:]` is `false`. Everything
 else is `true`.
-[source,groovy]
+[source, groovy]
 ----
 assert "hello world!"
 assert 1
@@ -102,7 +102,7 @@ if (list) println list // <1>
 
 === Optional return statement
 The last statement is returned
-[source,groovy]
+[source, groovy]
 ----
 String head(String s) {
     s.substring(0, 1)
@@ -111,7 +111,7 @@ assert head("hallo") == "h"
 ----
 
 === Classes and methods are public by default
-[source,groovy]
+[source, groovy]
 ----
 class BaseFoo { // <1>
     protected BaseFoo() {} // <2>
@@ -157,14 +157,14 @@ Order o = new Order(id: "123", externId: "456") // <1>
 <1> `Order order = new Order(); order.setId("123"); order.setExternId("456");` in Java
 
 === Safe dereference operator
-[source,groovy]
+[source, groovy]
 ----
 if (order?.shipper?.address?.name1) ... // <1>
 ----
 <1> instead of `if (order != null && order.shipper != null && ...)`
 
 === Elvis-Operator
-[source,groovy]
+[source, groovy]
 ----
 def greeting = service.greeting() ?: "Hello Groovy" // <1>
 ----
@@ -208,7 +208,7 @@ assert orders*.id.contains("123") // <1>
 <1> same as `orders.collect { it.id }.contains("123")`
 
 === String as identifier
-[source,groovy]
+[source, groovy]
 ----
 def "a user with permission `login` can login to the system"() {
     ...
@@ -229,7 +229,7 @@ def string = "abcd"
 === Equality and identity
 In Groovy `==` checks for equality using the `equals` method. To check
 for identity, use `is` instead
-[source,groovy]
+[source, groovy]
 ----
 assert !(new String("foo").is(new String("foo"))) // <1>
 assert new String("foo") == new String("foo") // <2>
@@ -240,7 +240,7 @@ assert new String("foo") == new String("foo") // <2>
 === Dynamic method dispatch
 Groovy uses dynamic method dispatch, Java uses static method dispatch.
 
-[source,groovy]
+[source, groovy]
 ----
 def use(Object o) {
     println "got an object"
@@ -291,12 +291,15 @@ service.methodThatNeedsByteArray(testdata)
 20.times { println it }
 def now = new Date()
 def tomorrow = now + 1
+
+assert [1, 2, 3, 4].last() == 4
 ----
 
 === `size()` FTW
 For all objects, that have a `size()`, `length` or `length()` you can use `size()`.
 
-```groovy
+[source, groovy]
+----
 int[] array = new int[5]
 assert array.size() == 5
 
@@ -305,6 +308,28 @@ assert list.size() == 5
 
 def string = "12345"
 assert string.size() == 5
-```
+----
 
-===
+=== Range
+[source, groovy]
+----
+(1..5).each { println it } // <1>
+(1..<5).each { println it } // <2>
+----
+<1> inclusive range, `1 <= i <= 5`
+<2> exclusive range, `1 <= i < 5`
+
+=== Collection accessors
+[source, groovy]
+----
+def list = (1..100) as List
+assert list[0] == 1    // <1>
+assert list[-1] == 100 // <2>
+
+def map = [a: 1, b: 2]
+assert map.a == 1
+assert map."a" == 1
+assert map["a"] == 1
+----
+<1> positive index, access the element at that position
+<2> negative index, count from the end
