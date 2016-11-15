@@ -1,19 +1,9 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
-        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-    }
+plugins {
+  id "org.ajoberstar.github-pages" version "1.6.0"
+  id "org.asciidoctor.gradle.asciidoctor" version "1.5.1"
+  id "com.github.ben-manes.versions" version "0.13.0"
+  id "groovy"
 }
-
-apply plugin: 'groovy'
-apply plugin: 'java'
-apply plugin: 'org.asciidoctor.convert'
-apply plugin: 'com.github.ben-manes.versions'
 
 sourceCompatibility = 1.8
 
@@ -48,5 +38,12 @@ asciidoctor {
         testdir                 : '../../test/groovy/de/gliderpilot/spock',
     )
 }
+
+githubPages {
+    pages {
+        from "$buildDir/asciidoc/html5"
+    }
+}
+prepareGhPages.dependsOn asciidoctor
 
 build.dependsOn 'asciidoctor'
