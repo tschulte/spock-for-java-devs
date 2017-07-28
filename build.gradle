@@ -1,8 +1,9 @@
 plugins {
-  id "org.ajoberstar.github-pages" version "1.6.0"
-  id "org.asciidoctor.gradle.asciidoctor" version "1.5.1"
-  id "com.github.ben-manes.versions" version "0.13.0"
-  id "groovy"
+    id "org.ajoberstar.github-pages" version "1.7.2"
+    id "org.asciidoctor.convert" version "1.5.3"
+    id "com.github.ben-manes.versions" version "0.15.0"
+    id "groovy"
+    id "jacoco"
 }
 
 sourceCompatibility = 1.8
@@ -12,12 +13,12 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.7'
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4-rc-3'
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 }
 
 asciidoctorj {
-    version = '1.5.4.1'
+    version = '1.5.5'
 }
 
 asciidoctor {
