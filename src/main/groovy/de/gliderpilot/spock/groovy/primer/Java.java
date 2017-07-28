@@ -1,4 +1,6 @@
-package de.gliderpilot.spock.groovy.primer
+package de.gliderpilot.spock.groovy.primer;
+
+import java.util.*;
 
 public class Java {
 
@@ -34,7 +36,7 @@ public class Java {
 
     public static void main(String[] args) {
         Java java = new Java();
-        java.getMap().put()
+        java.getMap().put("d", "fourth");
     }
 
 
