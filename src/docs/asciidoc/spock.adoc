@@ -17,12 +17,68 @@ include::{testdir}/SpockSpec.groovy[]
 ----
 <1> optional description
 
+=== Fixture Methods
+
+[source, goovy]
+----
+def setup() {}          // <1>
+def cleanup() {}        // <2>
+def setupSpec() {}      // <3>
+def cleanupSpec() {}    // <4>
+----
+<1> run before every feature method
+<2> run after every feature method
+<3> run before the first feature method
+<4> run after the last feature method
+
+=== Feature Methods
+
+Every public no argument method that either has an `expect:` block or both `when:` and `then:` is considered a test case -- or feature method in Spock lingua.
+By convention, the method should be a complete sentence and be defined as string.
+
+[source, groovy]
+----
+def "the size of a list is 0 after construction() {
+    expect:
+    new ArrayList().size() == 0
+}
+----
+
+=== Feature Method blocks
+
+setup/given:: for setup code only needed for this feature method (as opposed to a setup-method)
+
+when-then:: when I do x, then y should be z
+
+[source, groovy]
+----
+when:
+def x = 2 * 2
+
+then:
+x == 4
+----
+
+expect:: alternative for when-then
+
+[source, groovy]
+----
+expect:
+2 * 2 == 4
+----
+
+cleanup:: for cleanup code only needed for this feature method (as opposed to a cleanup-method)
+where:: for data driven tests
+
 === Annotations as a means to documentation
 Spock supports some annotations for documentation purposes.
-* Subject
-* Issue
+
 * Title
 * Narrative
+* Subject
+* Issue
+* See
+
 [source, groovy]
 ----
 @Issue("32817")
