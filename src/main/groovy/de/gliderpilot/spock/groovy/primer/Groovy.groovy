@@ -5,4 +5,8 @@ class Groovy { // <1>
 
     Map<String, String> map = [a: "first", b: "second", c: "third"] // <5>
 
+    static void main(args) {
+        Groovy groovy = new Groovy()
+        groovy.map.d = "fourth"
+    }
 }

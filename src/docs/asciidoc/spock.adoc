@@ -53,7 +53,7 @@ def "integration test for blah"() {...}
 
 `@IgnoreRest`:: Ignore all but one test
 
-`@PendingFeature`:: Execute the test, but mark as ignored, as long as it fails. Once it succeeds, mark as failure. The use case is to annotate tests that can not yet run but should already be committed. The main difference to Ignore is that the test are executed, but test failures are ignored. If the test passes without an error, then it will be reported as failure since the PendingFeature annotation should be removed. This way the tests will become part of the normal tests instead of being ignored forever.
+`@PendingFeature`:: Execute the test, but mark as ignored, as long as it fails. Once it succeeds, mark as failure. The use case is to annotate tests that can not yet run but should already be committed. The main difference to Ignore is that the tests are executed, but test failures are ignored. If the test passes without an error, then it will be reported as failure since the PendingFeature annotation should be removed. This way the tests will become part of the normal tests instead of being ignored forever.
 
 `@Stepwise`:: Execute the test methods in the exact order of their declaration in the groovy file
 
@@ -69,6 +69,8 @@ def connection = connect()
 ----
 
 `@Shared`:: Can be used instead of `static`. Marks a variable that is shared between tests.
+
+https://github.com/renatoathaydes/spock-reports[Spock-Reports]:: Create Specification reports
 
 === Data driven testing
 [source, groovy]

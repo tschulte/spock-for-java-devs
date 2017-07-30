@@ -1,5 +1,12 @@
 == Why Groovy?
-In principle, nearly all valid Java code is valid Groovy code as well. Only Java 8 lambdas are not supported (yet).
+In principle, nearly all valid Java code is valid Groovy code as well. Only some java constructs are not supported (https://github.com/danielsun1106/groovy-parser[yet]):
+
+* do-while loop
+* Java 8 lambdas, method reference and constructor reference
+* try-with-resources
+* code block (i.e. `{..}`)
+* array initializer
+* default method of interfaces
 
 But Groovy offers some very cool features, that are especially nice for writing tests.
 
@@ -227,7 +234,7 @@ def string = "abcd"
 ----
 
 === Equality and identity
-In Groovy `==` checks for equality using the `equals` method. To check
+In Groovy `==` checks for `a.compareTo(b) == 0` if the objects are `Comparable`, and `a.equals(b)` otherwise. To check
 for identity, use `is` instead
 [source, groovy]
 ----
@@ -316,8 +323,8 @@ assert string.size() == 5
 (1..5).each { println it } // <1>
 (1..<5).each { println it } // <2>
 ----
-<1> inclusive range, `1 <= i <= 5`
-<2> exclusive range, `1 <= i < 5`
+<1> inclusive range, `+++1 <= i <= 5+++`
+<2> exclusive range, `+++1 <= i < 5+++`
 
 === Collection accessors
 [source, groovy]
