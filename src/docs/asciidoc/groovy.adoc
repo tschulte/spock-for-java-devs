@@ -103,12 +103,12 @@ assert ![]
 assert ![:]
 
 def list = null
-if (list) println list // <1>
+if (list) println list
 ----
-<1> skipped optional parens;)
 
 === Optional return statement
 The last statement is returned
+
 [source, groovy]
 ----
 String head(String s) {
@@ -301,6 +301,33 @@ def tomorrow = now + 1
 
 assert [1, 2, 3, 4].last() == 4
 ----
+
+=== GString
+
+[source, groovy]
+----
+def name = "Paul"
+assert "Hello $name" == "Hello Paul"
+----
+
+=== Multiline Strings
+
+[source, groovy]
+----
+def id = 1
+def testfile = new File('/tmp/test.txt')
+testfile.text = """\ // <1>
+    <orders>
+        <order>
+            <id>$id</id> // <2>
+            ...
+        <order>
+    </orders>
+    """.stripIndent() // <3>
+----
+<1> use "\" to let the String start on the next line
+<2> is replaced with the value of id
+<3> use stripIndent() to strip the leading spaces
 
 === `size()` FTW
 For all objects, that have a `size()`, `length` or `length()` you can use `size()`.
