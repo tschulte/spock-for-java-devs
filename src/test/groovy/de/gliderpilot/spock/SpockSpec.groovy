@@ -1,14 +1,13 @@
 package de.gliderpilot.spock
 
-import spock.lang.Specification
 import spock.lang.*
 
 @Title("Lists")
 @Narrative("As a User I want to use a List")
-class SpockSpecification extends Specification {
+class SpockSpec extends Specification {
 
     @Subject
-    private List<String> list = new ArrayList<>();
+    private list = []
 
     @Issue("1234")
     def "is empty after creation"() {
@@ -28,10 +27,19 @@ class SpockSpecification extends Specification {
         list.first() == "Paul"
     }
 
+    def "contains the element after insertion"() {
+        when:
+        list.add("Paul")
+
+        then:
+        list.stream().filter { it == "Paul" }.findFirst().get()
+    }
+
+
     def "may contain duplicates"() {
         when: "I add an element twice"
-        list.add("Paul");
-        list.add("Paul");
+        list.add("Paul")
+        list.add("Paul")
 
         then: "the list contains two elemens"
         list.size() == 2
