@@ -1,7 +1,7 @@
 == Spock
 Spock is a testing framework that uses Groovy as a language and leverages many Groovy features to simplify testing. It uses JUnit as test runner and is therefore supported in all environments that support JUnit.
 
-For complete documentation see http://spockframework.org/spock/docs/latest/index.html
+For complete documentation see http://spockframework.org/spock/docs/1.1/index.html
 
 === Setup
 
