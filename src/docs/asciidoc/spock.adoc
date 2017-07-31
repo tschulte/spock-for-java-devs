@@ -98,7 +98,10 @@ def "calls to findFreeDepartureNames on date change are executed in order"() {
 ----
 
 === Extensions
-Spock allows to extend its behavior using some annotations. It ships with some annotations and extensions. See http://spockframework.org/spock/docs/latest/extensions.html
+Spock allows to extend its behavior using extensions.
+Most of them can be applied locally by using an annotation.
+Spock ships with some annotations and extensions.
+See http://spockframework.org/spock/docs/latest/extensions.html
 
 `@Ignore`:: Same as JUnits Ignore
 [source, groovy]
@@ -137,6 +140,18 @@ def connection = connect()
 `@Shared`:: Can be used instead of `static`. Marks a variable that is shared between tests.
 
 https://github.com/renatoathaydes/spock-reports[Spock-Reports]:: Create Specification reports
+
+[source, groovy]
+.build.gradle
+----
+include::../../../build.gradle[tags=spock-reports]
+----
+<1> defaults to build/spock-reports
+<2> defaults to also show blocks without description
+
+results in
+
+image::spock-report.png[]
 
 === Data driven testing
 [source, groovy]
