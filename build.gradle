@@ -22,6 +22,7 @@ sourceCompatibility = 1.8
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.12'
+    compile 'io.reactivex:rxjava:1.2.0'
 
     testCompile 'org.awaitility:awaitility:2.0.0'
     testCompile 'org.awaitility:awaitility-groovy:2.0.0'

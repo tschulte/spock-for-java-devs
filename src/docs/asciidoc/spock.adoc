@@ -66,6 +66,20 @@ expect:
 cleanup:: for cleanup code only needed for this feature method (as opposed to a cleanup-method)
 where:: for data driven tests (will be explained later)
 
+Descriptions:: all blocks can optionally have a description
+
+[source, groovy]
+----
+given: "we have a new list"
+def list = []
+
+when: "I add a new element to that list"
+list << "Paul"
+
+then: "the list contains that element
+list == ["Paul"]
+----
+
 === Enforces Behavior Driven Design
 A test class must extend `spock.lang.Specification`. Every public method that either has an `expect:` block or both `when:` and `then:` is considered a test case.
 
@@ -137,7 +151,7 @@ def "integration test for blah"() {...}
 def connection = connect()
 ----
 
-`@Shared`:: Can be used instead of `static`. Marks a variable that is shared between tests.
+`@Shared`:: Should be used instead of `static`. Marks a variable that is shared between tests.
 
 https://github.com/renatoathaydes/spock-reports[Spock-Reports]:: Create Specification reports
 
@@ -162,3 +176,10 @@ include::{testdir}/MathSpec.groovy[]
 results in
 
 image::unrolledTestReport.png[]
+
+=== Mocks, Stubs, Spies
+
+[source, groovy]
+----
+include::{testdir}/MockSpec.groovy[]
+----
