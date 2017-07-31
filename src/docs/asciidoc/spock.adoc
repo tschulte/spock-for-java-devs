@@ -3,19 +3,15 @@ Spock is a testing framework that uses Groovy as a language and leverages many G
 
 For complete documentation see http://spockframework.org/spock/docs/latest/index.html
 
-=== Enforces Behavior Driven Design
-A test class must extend `spock.lang.Specification`. Every public method that either has an `expect:` block or both `when:` and `then:` is considered a test case.
-
-[source, java]
-----
-include::{testdir}/JUnitTest.java[]
-----
+=== Setup
 
 [source, groovy]
+.build.gradle
 ----
-include::{testdir}/SpockSpec.groovy[]
+include::../../../build.gradle[tags=setup]
 ----
-<1> optional description
+<1> needed because the tests are groovy files
+<2> optional dependency to enable mocking of classes
 
 === Fixture Methods
 
@@ -68,7 +64,21 @@ expect:
 ----
 
 cleanup:: for cleanup code only needed for this feature method (as opposed to a cleanup-method)
-where:: for data driven tests
+where:: for data driven tests (will be explained later)
+
+=== Enforces Behavior Driven Design
+A test class must extend `spock.lang.Specification`. Every public method that either has an `expect:` block or both `when:` and `then:` is considered a test case.
+
+[source, java]
+----
+include::{testdir}/JUnitTest.java[]
+----
+
+[source, groovy]
+----
+include::{testdir}/SpockSpec.groovy[]
+----
+<1> optional description
 
 === Annotations as a means to documentation
 Spock supports some annotations for documentation purposes.

@@ -2,31 +2,41 @@ plugins {
     id "org.ajoberstar.github-pages" version "1.7.2"
     id "org.asciidoctor.convert" version "1.5.3"
     id "com.github.ben-manes.versions" version "0.15.0"
-    id "groovy"
     id "jacoco"
 }
 
-sourceCompatibility = 1.8
+// tag::setup[]
+apply plugin: 'groovy' // <1>
 
 repositories {
     jcenter()
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.12'
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testRuntime 'cglib:cglib-nodep:3.2.0' // <2>
+}
+// end::setup[]
 
-    testRuntime 'com.athaydes:spock-reports:1.3.1'
+sourceCompatibility = 1.8
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.12'
 
     asciidoctor 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
 }
 
+// tag::spock-reports[]
+dependencies {
+    testRuntime 'com.athaydes:spock-reports:1.3.1'
+}
+
 tasks.withType(Test) { task ->
     // configure spock-reports
-    systemProperty "com.athaydes.spockframework.report.outputDir", "$project.buildDir/reports/spock/$task.name"
-    systemProperty "com.athaydes.spockframework.report.hideEmptyBlocks", "true"
-    //systemProperty "com.athaydes.spockframework.report.showCodeBlocks", "true"
+    systemProperty "com.athaydes.spockframework.report.outputDir", "$project.buildDir/reports/spock/$task.name" // <1>
+    systemProperty "com.athaydes.spockframework.report.hideEmptyBlocks", "true"                                 // <2>
 }
+// end::spock-reports[]
 
 asciidoctorj {
     version = '1.5.5'
