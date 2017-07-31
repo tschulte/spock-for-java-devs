@@ -32,10 +32,17 @@ asciidoctorj {
     version = '1.5.5'
 }
 
+task pdf {
+    doFirst {
+        project.asciidoctor.backends "pdf"
+    }
+    finalizedBy asciidoctor
+}
+
 asciidoctor {
     options doctype: 'book'
 
-    backends = ['html5', 'pdf']
+    backends 'html5'
     attributes(
         'source-highlighter'    : 'coderay',
         imagesdir               : 'images',
