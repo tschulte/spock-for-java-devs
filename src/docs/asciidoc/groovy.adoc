@@ -28,18 +28,7 @@ Closures are more than Lambdas in Java 8. Variables outside need not be final. C
 
 [source, groovy]
 ----
-int count = 0
-20.times { // <1>
-    count++
-}
-assert count == 20
-new Thread({count = 0}).start()
-assert await().until { count == 0 }
-
-def closure = { println it } // <2>
-def closureWithNamedArguments = { a, b, c -> // <3>
-    println "$a $b $c"
-}
+include::{testdir}/Closures.groovy[]
 ----
 <1> No named parameter
 <2> But if parameter is passed, it can be always accessed using `it`
@@ -58,20 +47,7 @@ If it quacks like a duck, and walks like a duck, it is a duck.
 
 [source, groovy]
 ----
-class Cat {
-    def makeSound() {
-        println "meow!"
-    }
-}
-class Dog {
-    def makeSound() {
-        println "wuff!"
-    }
-}
-def animal = new Cat()
-animal.makeSound()
-animal = new Dog()
-animal.makeSound()
+include::{testdir}/DuckTyping.groovy[]
 ----
 
 === Collection literals
@@ -90,20 +66,7 @@ In Groovy, all objects can be coerced to a Boolean. `null` is `false`,
 else is `true`.
 [source, groovy]
 ----
-assert "hello world!"
-assert 1
-assert [1]
-assert [a: 1]
-
-assert !null
-assert !""
-assert !0
-assert !0d
-assert ![]
-assert ![:]
-
-def list = null
-if (list) println list
+include::{testdir}/GroovyTruth.groovy[]
 ----
 
 === Optional return statement

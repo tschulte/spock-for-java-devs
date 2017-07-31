@@ -23,6 +23,9 @@ sourceCompatibility = 1.8
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.12'
 
+    testCompile 'org.awaitility:awaitility:2.0.0'
+    testCompile 'org.awaitility:awaitility-groovy:2.0.0'
+
     asciidoctor 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
 }
 
